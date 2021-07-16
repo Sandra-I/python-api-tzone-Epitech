@@ -1,9 +1,10 @@
-#app.py
-from flask import Flask, flash, request, redirect, url_for, render_template, jsonify
+from flask import Flask, flash, request, redirect, url_for, render_template
 import urllib.request
 import os
+import base64
+from PIL import Image
+import io
 from werkzeug.utils import secure_filename
-from imgToText import process_image
  
 app = Flask(__name__)
  
@@ -23,30 +24,29 @@ def allowed_file(filename):
 def home():
     return render_template('index.html')
  
-@app.route('/', methods=['POST'])
-def upload_image():
-    if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-        flash('No image selected for uploading')
-        return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        #print('upload_image filename: ' + filename)
-        #flash('Image successfully uploaded and displayed below')
-        flash(process_image(os.path.join(app.config['UPLOAD_FOLDER'], filename)))
-        return render_template('index.html', filename=filename)
+@app.route('/upload', methods=['POST']) 
+def upload_base64_file(): 
+    """ 
+        Upload image with base64 format and get car make model and year 
+        response 
+    """
+
+    data = request.get_json()
+    # print(data)
+
+    if data is None:
+        print("No valid request body, json missing!")
+        return jsonify({'error': 'No valid request body, json missing!'})
     else:
-        flash('Allowed image types are - png, jpg, jpeg, gif')
-        return redirect(request.url)
- 
-@app.route('/display/<filename>')
-def display_image(filename):
-    #print('display_image filename: ' + filename)
-    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+        img_data = data['img']
+
+      # this method convert and save the base64 string to image
+        convert_and_save(img_data)
+
+def convert_and_save(b64_string):
+    with open("imageToSave.png", "wb") as fh:
+        fh.write(base64.decodebytes(b64_string.encode()))
  
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port = int(8080))
