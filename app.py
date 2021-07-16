@@ -5,6 +5,7 @@ import base64
 from PIL import Image
 import io
 from werkzeug.utils import secure_filename
+from imgToText import process_image
  
 app = Flask(__name__)
  
@@ -31,22 +32,15 @@ def upload_base64_file():
         response 
     """
 
-    data = request.get_json()
+    data = request.args.get('img')
     # print(data)
+    image = base64.b64decode(str(data))       
+    fileName = 'test.png'
+    imagePath = ('C:/Users/rkane/OneDrive/Bureau/TZone_python/'+"test.png")
+    img = Image.open(io.BytesIO(image))
+    img.save(imagePath, 'png')
+    process_image(imagePath)
+    
 
-    if data is None:
-        print("No valid request body, json missing!")
-        return jsonify({'error': 'No valid request body, json missing!'})
-    else:
-
-        img_data = data['img']
-
-      # this method convert and save the base64 string to image
-        convert_and_save(img_data)
-
-def convert_and_save(b64_string):
-    with open("imageToSave.png", "wb") as fh:
-        fh.write(base64.decodebytes(b64_string.encode()))
- 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port = int(8080))
