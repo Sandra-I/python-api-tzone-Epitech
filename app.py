@@ -22,12 +22,14 @@ def allowed_file(filename):
 @app.route('/')
 def home():
     return render_template('index.html')
+    # return 'Text'
  
 @app.route('/', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
-        flash('No file part')
-        return redirect(request.url)
+        # flash('No file part')
+        # return redirect(request.url)
+        return 'no file'
     file = request.files['file']
     if file.filename == '':
         flash('No image selected for uploading')
