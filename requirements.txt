@@ -2,4 +2,4 @@ pytesseract
 Pillow
 flask
 opencv-python
-cv2
+# cv2
