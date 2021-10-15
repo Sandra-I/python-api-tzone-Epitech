@@ -2,6 +2,7 @@ version: "3.8"
 services:
   app:
     build: .
+    command: python app.py
     stdin_open: true
     tty: true
     ports:
