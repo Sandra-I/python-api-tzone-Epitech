@@ -17,6 +17,28 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+class InvalidUsage(Exception):
+    status_code = 400
+    print('here')
+    def __init__(self, message, status_code=None, payload=None):
+        print('init')
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+@app.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
     
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -64,6 +86,10 @@ def upload_with_translation():
                     'original': { 'lang': original_lang, 'text': text_to_translate },
                     'translated': { 'lang': target_lang, 'text': translated_text }
                 })
+            except Exception as e:
+                print(e.message)
+                print(e.status_code)
+                raise InvalidUsage(str(e))
             finally:
                 os.remove(imagePath)
 
