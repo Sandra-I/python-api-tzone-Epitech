@@ -5,6 +5,13 @@ import os
 translator = deepl.Translator(os.getenv("DEEPL_AUTH_KEY"))
 
 def translation_text(text, target_lang):
-    result = translator.translate_text(text, target_lang=target_lang)
-    result.target_lang = target_lang
-    return result
+    result = None
+    if text:
+        try:
+            result = translator.translate_text(text, target_lang=target_lang)
+        except deepl.DeepLException as err:
+            raise err
+
+    if result:
+        result.target_lang = target_lang
+        return result
