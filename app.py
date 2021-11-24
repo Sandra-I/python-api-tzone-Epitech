@@ -6,6 +6,7 @@ from PIL import Image
 import io
 from werkzeug.utils import secure_filename
 from imgToText import process_image
+from translation import translation_text
  
 app = Flask(__name__)
  
@@ -14,9 +15,9 @@ UPLOAD_FOLDER = 'static/uploads/'
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
- 
+
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
- 
+    
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
      
@@ -32,14 +33,40 @@ def upload_base64_file():
         response 
     """
     data = request.get_json()
-    data = data['img']    
+    data = data['img']
     image = base64.b64decode(data)       
     imagePath = ('./static/uploads/test.png')
     img = Image.open(io.BytesIO(image))
     img.save(imagePath)
     textToReturn = process_image(imagePath)
     return jsonify({ 'text': textToReturn })
-    
 
+@app.route('/upload-with-translation', methods=['POST'])
+def upload_with_translation():
+    request_data = request.get_json()
+    text_to_translate = None
+    imagePath = None
+    if request_data:
+        if 'img' in request_data:
+            data = request_data['img']
+            target_lang = request_data['language']
+            image = base64.b64decode(data)       
+            imagePath = ('./static/uploads/imagetest.png')
+            img = Image.open(io.BytesIO(image))
+            img.save(imagePath)
+            text_to_translate = process_image(imagePath)
+
+            try:
+                translation_result = translation_text(text_to_translate, target_lang)
+                translated_text = translation_result.text
+                original_lang = translation_result.detected_source_lang
+                return jsonify({
+                    'original': { 'lang': original_lang, 'text': text_to_translate },
+                    'translated': { 'lang': target_lang, 'text': translated_text }
+                })
+            finally:
+                os.remove(imagePath)
+
+ 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port = int(8080))
