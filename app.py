@@ -82,13 +82,12 @@ def upload_with_translation():
                 translation_result = translation_text(text_to_translate, target_lang)
                 translated_text = translation_result.text
                 original_lang = translation_result.detected_source_lang
+                print(translation_text)
                 return jsonify({
                     'original': { 'lang': original_lang, 'text': text_to_translate },
                     'translated': { 'lang': target_lang, 'text': translated_text }
                 })
             except Exception as e:
-                print(e.message)
-                print(e.status_code)
                 raise InvalidUsage(str(e))
             finally:
                 os.remove(imagePath)
