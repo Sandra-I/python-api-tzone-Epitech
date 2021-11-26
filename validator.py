@@ -7,9 +7,9 @@ Schema = {
     "type": "object",
     "properties": {
         "img": {"type": "string"},
-        "lang": {"type": "number"},
+        "language": {"type": "string"},
     },
-    "required": ["img","lang"]
+    "required": ["img","language"]
 }
 
 def validate_json(jsonData):
@@ -22,7 +22,7 @@ def validate_json(jsonData):
 
 #jsonData = json.loads('{"lang": "ES", "r": 25, "marks": 72}')
 def translation_allowed(jsonData):
-    mylist = ["FR", "DE", "ES","EN-GB","EN-US"]
-    for x in mylist:
-        if(jsonData[lang] == x):
-            return true
+    allowed_lang = ["FR", "DE", "ES","EN-GB","EN-US"]
+    for x in allowed_lang:
+        if(jsonData['language'] == x):
+            return True
