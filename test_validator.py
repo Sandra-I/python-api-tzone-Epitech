@@ -1,6 +1,6 @@
 import unittest
 import json
-from validator import translation_allowed, validateJson
+from validator import translation_allowed, validate_json
 
 class testClass(unittest.TestCase):
     def test_translation_allowed(self):
@@ -9,5 +9,5 @@ class testClass(unittest.TestCase):
         self.assertEqual(result, True)
     def test_validateJson(self):
         jsonData = json.loads('{"lang": "ES", "img": "gggg"}')
-        result = validateJson(jsonData)
+        result = validate_json(jsonData)
         self.assertEqual(result, True)
