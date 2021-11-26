@@ -9,6 +9,7 @@ Schema = {
         "img": {"type": "string"},
         "lang": {"type": "number"},
     },
+    "required": ["img","lang"]
 }
 
 def validateJson(jsonData):
