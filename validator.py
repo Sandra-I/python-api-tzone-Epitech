@@ -12,7 +12,7 @@ Schema = {
     "required": ["img","lang"]
 }
 
-def validateJson(jsonData):
+def validate_json(jsonData):
     try:
         validate(instance=jsonData, schema=Schema)
     except jsonschema.exceptions.ValidationError as err:
