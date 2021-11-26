@@ -7,7 +7,7 @@ class testClass(unittest.TestCase):
         jsonData = json.loads('{"lang": "ES", "r": 25, "marks": 72}')
         result = translation_allowed(jsonData)
         self.assertEqual(result, True)
-    def test_validateJson(self):
+    def test_validate_json(self):
         jsonData = json.loads('{"lang": "ES", "img": "gggg"}')
         result = validate_json(jsonData)
         self.assertEqual(result, True)
