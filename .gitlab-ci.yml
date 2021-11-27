@@ -1,0 +1,10 @@
+image: rbekker87/build-tools:latest
+
+stages:
+  - init
+
+init:
+  stage: init
+  script:
+    - pip install -r requirements.txt
+
