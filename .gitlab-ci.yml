@@ -6,7 +6,8 @@ stages:
 init:
   stage: init
   script:
-    - apt-get update
+    - apt-get update -qy
+#  — apt-get install -y python-dev python-pip
     - apt-get install tesseract-ocr
     - apt-get install tesseract-ocr-eng
     - pip install -r requirements.txt
