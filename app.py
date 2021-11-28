@@ -5,8 +5,9 @@ import base64
 from PIL import Image
 import io
 from werkzeug.utils import secure_filename
-from imgToText import process_image
-from translation import translation_text
+from api_services.imgToText import process_image
+from api_services.translation import translation_text
+from api_services.validator import validate_json_translations, validate_json, translation_allowed
  
 app = Flask(__name__)
  
