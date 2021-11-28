@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../api_services")
+
 import unittest
 from translation import translation_text
 

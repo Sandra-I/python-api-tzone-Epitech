@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../api_services")
+
 import unittest
 import json
 from validator import translation_allowed, validate_json

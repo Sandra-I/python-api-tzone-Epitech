@@ -7,12 +7,27 @@ Schema = {
     "type": "object",
     "properties": {
         "img": {"type": "string"},
+    },
+    "required": ["img"]
+}
+
+Schema_translations= {
+    "type": "object",
+    "properties": {
         "language": {"type": "string"},
+        "img": {"type": "string"},
     },
     "required": ["img","language"]
 }
 
 def validate_json(jsonData):
+    try:
+        validate(instance=jsonData, schema=Schema)
+    except jsonschema.exceptions.ValidationError as err:
+        return False
+    return True
+
+def validate_json_translations(jsonData):
     try:
         validate(instance=jsonData, schema=Schema)
     except jsonschema.exceptions.ValidationError as err:
