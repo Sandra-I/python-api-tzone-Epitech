@@ -32,52 +32,14 @@ def upload_base64_file():
         response 
     """
     data = request.get_json()
-    if(validate_json(data)):
+    data = data['img']    
+    image = base64.b64decode(data)       
+    imagePath = ('./static/uploads/test.png')
+    img = Image.open(io.BytesIO(image))
+    img.save(imagePath)
+    textToReturn = process_image(imagePath)
+    return jsonify({ 'text': textToReturn })
     
-        data = data['img']
-        image = base64.b64decode(data)       
-        imagePath = ('./static/uploads/test.png')
-        img = Image.open(io.BytesIO(image))
-        img.save(imagePath)
-        textToReturn = process_image(imagePath)
-        return jsonify({ 'text': textToReturn })
-    else:
-        raise Exception("wrong format")
 
-
-@app.route('/upload-with-translation', methods=['POST'])
-def upload_with_translation():
-    request_data = request.get_json()
-    if(validate_json_translations(request_data) == False):
-        raise Exception("wrong")
-    if(translation_allowed(request_data) == False):
-        raise Exception("wrong")
-    text_to_translate = None
-    imagePath = None
-    if request_data:
-        if 'img' in request_data:
-            data = request_data['img']
-            target_lang = request_data['language']
-            image = base64.b64decode(data)       
-            imagePath = ('./static/uploads/imagetest.png')
-            img = Image.open(io.BytesIO(image))
-            img.save(imagePath)
-            text_to_translate = process_image(imagePath)
-
-            try:
-                translation_result = translation_text(text_to_translate, target_lang)
-                translated_text = translation_result.text
-                original_lang = translation_result.detected_source_lang
-                print(translation_text)
-                return jsonify({
-                    'original': { 'lang': original_lang, 'text': text_to_translate },
-                    'translated': { 'lang': target_lang, 'text': translated_text }
-                })
-            except Exception as e:
-                raise InvalidUsage(str(e))
-            finally:
-                os.remove(imagePath)
-
- 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port = int(8080))
