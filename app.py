@@ -21,9 +21,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 class InvalidUsage(Exception):
     status_code = 400
-    print('here')
     def __init__(self, message, status_code=None, payload=None):
-        print('init')
         Exception.__init__(self)
         self.message = message
         if status_code is not None:
@@ -92,7 +90,6 @@ def upload_with_translation():
                 translation_result = translation_text(text_to_translate, target_lang)
                 translated_text = translation_result.text
                 original_lang = translation_result.detected_source_lang
-                print(translation_text)
                 return jsonify({
                     'original': { 'lang': original_lang, 'text': text_to_translate },
                     'translated': { 'lang': target_lang, 'text': translated_text }
