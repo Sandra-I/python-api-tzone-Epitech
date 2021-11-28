@@ -72,6 +72,10 @@ def upload_base64_file():
 @app.route('/upload-with-translation', methods=['POST'])
 def upload_with_translation():
     request_data = request.get_json()
+    if(validate_json_translations(request_data) == False):
+        raise Exception("wrong")
+    if(translation_allowed(request_data) == False):
+        raise Exception("wrong")
     text_to_translate = None
     imagePath = None
     if request_data:
