@@ -8,7 +8,7 @@ from test_vars import get_var, get_var_translation
 class testApi(unittest.TestCase):
     param= get_var()
     param_translation= get_var_translation()
-    URL = 'http://sandrai.pythonanywhere.com'
+    URL = 'https://tzone.yamikamisama.fr/dev/'
     URLupload='https://tzone.yamikamisama.fr/dev/upload'
     URLtranslation='https://tzone.yamikamisama.fr/dev/upload-with-translation'
     
