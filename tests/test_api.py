@@ -10,7 +10,7 @@ class testApi(unittest.TestCase):
     param_translation= get_var_translation()
     URL = 'http://sandrai.pythonanywhere.com'
     URLupload='https://tzone.yamikamisama.fr/dev/upload'
-    URLtranslation='https://tzone.yamikamisama.fr/dev//upload-with-translation'
+    URLtranslation='https://tzone.yamikamisama.fr/dev/upload-with-translation'
     
     
     def test_connect_get(self):
