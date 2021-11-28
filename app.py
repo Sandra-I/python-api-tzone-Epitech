@@ -56,14 +56,18 @@ def upload_base64_file():
         response 
     """
     data = request.get_json()
-    validate_json(data)
-    data = data['img']
-    image = base64.b64decode(data)       
-    imagePath = ('./static/uploads/test.png')
-    img = Image.open(io.BytesIO(image))
-    img.save(imagePath)
-    textToReturn = process_image(imagePath)
-    return jsonify({ 'text': textToReturn })
+    if(validate_json(data)):
+    
+        data = data['img']
+        image = base64.b64decode(data)       
+        imagePath = ('./static/uploads/test.png')
+        img = Image.open(io.BytesIO(image))
+        img.save(imagePath)
+        textToReturn = process_image(imagePath)
+        return jsonify({ 'text': textToReturn })
+    else:
+        raise Exception("wrong format")
+
 
 @app.route('/upload-with-translation', methods=['POST'])
 def upload_with_translation():
