@@ -1,0 +1,16 @@
+import sys
+sys.path.append("../api_services")
+
+import unittest
+import json
+from validator import translation_allowed, validate_json
+
+class testClass(unittest.TestCase):
+    def test_translation_allowed(self):
+        jsonData = json.loads('{"language": "ES", "r": 25, "marks": 72}')
+        result = translation_allowed(jsonData)
+        self.assertEqual(result, True)
+    def test_validate_json(self):
+        jsonData = json.loads('{"language": "ES", "img": "gggg"}')
+        result = validate_json(jsonData)
+        self.assertEqual(result, True)
