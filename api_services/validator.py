@@ -29,7 +29,7 @@ def validate_json(jsonData):
 
 def validate_json_translations(jsonData):
     try:
-        validate(instance=jsonData, schema=Schema)
+        validate(instance=jsonData, schema=Schema_translations)
     except jsonschema.exceptions.ValidationError as err:
         return False
     return True
@@ -41,3 +41,4 @@ def translation_allowed(jsonData):
     for x in allowed_lang:
         if(jsonData['language'] == x):
             return True
+    return False
