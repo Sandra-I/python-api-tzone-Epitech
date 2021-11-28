@@ -3,4 +3,3 @@ Pillow
 flask
 opencv-python
 # cv2
-deepl
