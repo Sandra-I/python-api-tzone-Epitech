@@ -25,5 +25,6 @@ curl http://localhost:8080/
 
 To launch the tests
 ```
-python -m unittest -v test_api.py
+cd tests
+python3 -m unittest -v test_api.py
 ```
