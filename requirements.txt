@@ -4,3 +4,4 @@ flask
 opencv-python
 # cv2
 deepl
+jsonschema
